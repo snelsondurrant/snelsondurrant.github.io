@@ -564,7 +564,7 @@
                     const winningPieces = checkWin(board, player);
                     if (winningPieces) {
                         gameOver = true;
-                        statusElement.textContent = `${player === PLAYER ? 'You win!' : 'AI wins!'}`;
+                        statusElement.textContent = `${player === PLAYER ? 'You win!' : 'Better luck next time!'}`;
                         boardElement.classList.add('disabled');
                         triggerConfetti();
                         winningPieces.forEach(([wr, wc]) => {
@@ -599,7 +599,7 @@
         
         async function switchPlayer() {
             currentPlayer = (currentPlayer === PLAYER) ? AI : PLAYER;
-            statusElement.textContent = (currentPlayer === PLAYER) ? "Your Turn (Red)" : "AI is thinking...";
+            statusElement.textContent = (currentPlayer === PLAYER) ? "Your Turn (Red)" : "Finding optimal move...";
             
             if (currentPlayer === AI && !gameOver) {
                 boardElement.classList.add('disabled');
