@@ -74,20 +74,17 @@
         /* Winning piece animation */
         @keyframes pulse {
             0%, 100% {
+                transform: scale(1);
                 box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
             }
             50% {
+                transform: scale(1.1);
                 box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
             }
         }
         .winning-piece {
-            animation: pulse 1.5s 1; /* Run the animation once */
+            animation: pulse 1.5s 1; /* Run the animation twice */
             z-index: 2; /* Bring winning pieces to the front */
-        }
-        /* --- Disable hover effect for active Connect 4 game --- */
-        #connect4-card.game-active:hover {
-            transform: none !important;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important; /* Tailwind's shadow-sm */
         }
     </style>
 </head>
@@ -175,7 +172,7 @@
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <!-- Content -->
                         <p class="text-sm font-medium text-blue-600">Expected Apr 2027</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">MS Electrical and Computer Engineering</h3>
                             <p class="text-slate-600">Brigham Young University, Provo, UT</p>
                             <div class="mt-4 text-sm text-slate-600 space-y-2">
@@ -189,7 +186,7 @@
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <!-- Content -->
                         <p class="text-sm font-medium text-blue-600">Apr 2025</p>
-                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">BS Computer Engineering</h3>
                             <p class="text-slate-600">Brigham Young University, Provo, UT</p>
                             <div class="mt-4 text-sm text-slate-600 space-y-2">
@@ -209,7 +206,7 @@
                         <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">May 2025 - Present</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Graduate Research Assistant</h3>
                             <p class="text-slate-600">BYU Field Robotic Systems Lab, Provo, UT</p>
                         </div>
@@ -218,12 +215,12 @@
                         <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">May 2025 - Aug 2025</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Robotics S&T Intern</h3>
                             <p class="text-slate-600 mb-2">NAVSEA Naval Surface Warfare Center, Panama City Division, Panama City, FL</p>
                             <div class="mt-2">
-                                <a href="https://www.navalsteminterns.us/nreip/" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm break-all">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <a href="https://www.navalsteminterns.us/nreip/" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.536a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                     </svg>
                                     <span>https://www.navalsteminterns.us/nreip/</span>
@@ -234,7 +231,7 @@
                     <div class="relative pl-8 sm:pl-12 group">
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                          <p class="text-sm font-medium text-blue-600">Apr 2023 - May 2025</p>
-                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Undergraduate Research Assistant</h3>
                             <p class="text-slate-600 mb-2">BYU Field Robotic Systems Lab, Provo, UT</p>
                             <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
@@ -253,17 +250,17 @@
             <section id="publications" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
                 <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Publications</h2>
                 <div class="max-w-4xl mx-auto space-y-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, M. McMurray, C. Smith, B. Anderson, T. Hodgins, J. Mangelson, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research,” Submitted to the IEEE/MTS OCEANS Conference and Exhibition, 2025.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, H. Spigarelli, M. Killpack, “BYU Mars Rover Telemetry in the 2025 University Rover Challenge,” in Proceedings of the International Telemetering Conference, 2025.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <p class="text-slate-600">T. Zhang, W. Zhi, B. Meyers, <b>N. Durrant</b>, K. Huang, J. Mangelson, C. Barbalata, M. Johnson-Roberson, “RecGS: Removing Water Caustic with Recurrent Gaussian Splatting”, in Proceedings of the IEEE International Conference on Robotics and Automation (ICRA), 2025.</p>
                         <div class="mt-4">
-                            <a href="https://github.com/tyz1030/recgs" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm break-all">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <a href="https://github.com/tyz1030/recgs" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.536a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                 </svg>
                                 <span>https://github.com/tyz1030/recgs</span>
@@ -281,7 +278,7 @@
                         <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">Sep 2024 - Jul 2025</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Software and Electrical Lead</h3>
                             <p class="text-slate-600 mb-2">ASABE Agricultural Robotics Competition (2025), Toronto, CA</p>
                             <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
@@ -293,7 +290,7 @@
                         <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">Jul 2024 - May 2025</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Autonomy Team, Software Team</h3>
                             <p class="text-slate-600 mb-2">Mars Society University Rover Challenge (2025), Hanksville, UT</p>
                             <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
@@ -303,8 +300,8 @@
                                 <li>Created a fully-featured Gazebo simulation (GPS, Aruco, multimodal sensors) for rapid validation of autonomous navigation capabilities</li>
                             </ul>
                             <div class="mt-4">
-                                <a href="https://github.com/snelsondurrant/marsrover_2.0" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm break-all">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <a href="https://github.com/snelsondurrant/marsrover_2.0" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.536a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                     </svg>
                                     <span>https://github.com/snelsondurrant/marsrover_2.0</span>
@@ -315,7 +312,7 @@
                      <div class="relative pl-8 sm:pl-12 group">
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">Sep 2023 - Jul 2024</p>
-                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Software and Electrical Team</h3>
                             <p class="text-slate-600 mb-2">ASABE Agricultural Robotics Competition (2024), Anaheim, CA</p>
                             <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
@@ -331,7 +328,7 @@
                 <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Projects</h2>
                 <div class="max-w-4xl mx-auto space-y-6">
                     <!-- Connect 4 Project -->
-                    <div id="connect4-card" class="bg-white p-6 rounded-lg shadow-sm flex flex-col transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div id="connect4-card" class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500 flex flex-col">
                         <div class="flex-grow">
                             <h3 class="font-bold text-lg text-slate-800">Connect 4 Robotic Arm</h3>
                             <p class="mt-2 text-slate-600">Built a 3D-printed robotic arm that plays Connect 4, leveraging OpenCV’s Hough transform and the minimax theorem for a 83-4-1 win-loss record against friends and family.</p>
@@ -355,23 +352,23 @@
                         </div>
                     </div>
                     <!-- Other Projects -->
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="font-bold text-lg text-slate-800">3-DOF Twin-Rotor Helicopter Controls <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
                         <p class="mt-2 text-slate-600">Engineered and validated <b>PID, full-state feedback, and observer-based control systems</b> for a 3-DOF twin-rotor helicopter.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="font-bold text-lg text-slate-800">Self-Driving RC Car <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
                         <p class="mt-2 text-slate-600">Built a ROS 1-based autonomy stack for an RC car, capable of robust OpenCV-based lane following, collision avoidance, and intersection navigation.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="font-bold text-lg text-slate-800">Embedded Space Invaders <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
                         <p class="mt-2 text-slate-600">Developed a 60 FPS "Space Invaders" game on embedded Linux, leveraging custom device drivers and FPGA timer hardware.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="font-bold text-lg text-slate-800">RISC-V Processor <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
                         <p class="mt-2 text-slate-600">Designed and validated a 32-bit pipelined RISC-V processor; used it to execute an assembly adaptation of the game “Snake”.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="font-bold text-lg text-slate-800">Multiplayer Laser Tag System <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
                         <p class="mt-2 text-slate-600">Engineered custom receiver board circuitry for a 10-player laser tag system, achieving >95% shot recognition from a 60-foot range.</p>
                     </div>
@@ -382,10 +379,10 @@
             <section id="presentations" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
                 <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Presentations</h2>
                 <div class="max-w-4xl mx-auto space-y-4">
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1"><p class="text-slate-600"><b>N. Durrant</b>, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research”, BYU IMMERSE Research Program, May 2025.</p></div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1"><p class="text-slate-600">K. Velasco, B. Meyers, <b>N. Durrant</b>, B. Anderson, C. Smith, T. Hodgins, E. Gaskin, C. Saunders, B. Washburn, J. Mangelson, “Active Cooperative Terrain-Aided Navigation Using Inverted USBL”, NSWC PCD - NEEC Research Review, May 2025.</p></div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1"><p class="text-slate-600">J. Boyer, <b>N. Durrant</b>, K. Green, “BYU Mars Rover: 2025 University Rover Challenge”, Utah NASA Space Grant Consortium, May 2025. (Poster Session).</p></div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1"><p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, M. McMurray, B. Anderson, C. Smith, T. Hodgins, J. Mangelson, “Configurable Underwater Group of Autonomous Robots (CoUGARs)”, NEEC Fest (Naval Engineering Education Consortium), Jul 2024. (Poster Session).</p></div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600"><b>N. Durrant</b>, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research”, BYU IMMERSE Research Program, May 2025.</p></div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600">K. Velasco, B. Meyers, <b>N. Durrant</b>, B. Anderson, C. Smith, T. Hodgins, E. Gaskin, C. Saunders, B. Washburn, J. Mangelson, “Active Cooperative Terrain-Aided Navigation Using Inverted USBL”, NSWC PCD - NEEC Research Review, May 2025.</p></div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600">J. Boyer, <b>N. Durrant</b>, K. Green, “BYU Mars Rover: 2025 University Rover Challenge”, Utah NASA Space Grant Consortium, May 2025. (Poster Session).</p></div>
+                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, M. McMurray, B. Anderson, C. Smith, T. Hodgins, J. Mangelson, “Configurable Underwater Group of Autonomous Robots (CoUGARs)”, NEEC Fest (Naval Engineering Education Consortium), Jul 2024. (Poster Session).</p></div>
                 </div>
             </section>
 
@@ -397,7 +394,7 @@
                         <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">Aug 2022 - May 2023</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">Amateur Web Developer</h3>
                             <p class="text-slate-600 mb-2">Become More Charity Organization, Farmington, UT</p>
                             <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
@@ -408,7 +405,7 @@
                      <div class="relative pl-8 sm:pl-12 group">
                         <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
                         <p class="text-sm font-medium text-blue-600">Jul 2020 - Jun 2022</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                             <h3 class="font-bold text-lg text-slate-800">ESL Teacher, ESL Program Coordinator</h3>
                             <p class="text-slate-600 mb-2">EnglishConnect (The Church of Jesus Christ of Latter-day Saints), Austin, TX</p>
                             <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
@@ -423,7 +420,7 @@
             <section id="skills" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
                 <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Skills</h2>
                 <div class="max-w-4xl mx-auto space-y-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="text-lg font-semibold text-slate-800 mb-4">Languages</h3>
                         <div class="flex flex-wrap gap-3">
                             <span class="bg-blue-100 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">C++</span>
@@ -431,7 +428,7 @@
                             <span class="bg-blue-100 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">C</span>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="text-lg font-semibold text-slate-800 mb-4">Frameworks & Libraries</h3>
                         <div class="flex flex-wrap gap-3">
                             <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">ROS 2</span>
@@ -441,7 +438,7 @@
                             <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">YOLO</span>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-[inset_4px_0_0_0_#3b82f6,0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:translate-x-1">
+                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
                         <h3 class="text-lg font-semibold text-slate-800 mb-4">Hardware & EDA</h3>
                         <div class="flex flex-wrap gap-3">
                             <span class="bg-emerald-100 text-emerald-800 text-sm font-medium px-4 py-2 rounded-full">Altium</span>
@@ -581,7 +578,7 @@
                     } else {
                         switchPlayer();
                     }
-                    return; // Exit loop once piece is placed
+                    return; // Exit loop once is placed
                 }
             }
         }
@@ -719,7 +716,7 @@
         playBtn.addEventListener('click', () => {
             playBtn.classList.add('hidden');
             gameContainer.classList.remove('hidden');
-            connect4Card.classList.add('game-active'); // Disable hover effects
+            connect4Card.classList.remove('hover:shadow-md', 'hover:border-l-4', 'hover:border-blue-500');
             resetGame();
         });
 
@@ -728,7 +725,7 @@
         closeBtn.addEventListener('click', () => {
             gameContainer.classList.add('hidden');
             playBtn.classList.remove('hidden');
-            connect4Card.classList.remove('game-active'); // Re-enable hover effects
+            connect4Card.classList.add('hover:shadow-md', 'hover:border-l-4', 'hover:border-blue-500');
         });
     });
     </script>
