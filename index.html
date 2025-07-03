@@ -66,9 +66,26 @@
             position: relative;
             cursor: pointer;
             transition: background-color 0.2s;
+            z-index: 1;
         }
         .connect4-cell.player1 { background-color: #ef4444; } /* red-500 */
         .connect4-cell.player2 { background-color: #facc15; } /* yellow-400 */
+
+        /* Winning piece animation */
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+            }
+        }
+        .winning-piece {
+            animation: pulse 1.5s 2; /* Run the animation twice */
+            z-index: 2; /* Bring winning pieces to the front */
+        }
     </style>
 </head>
 <body class="text-slate-700">
@@ -301,7 +318,7 @@
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-slate-500" viewBox="0 0 20 20" fill="currentColor">
                                         <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
                                     </svg>
-                                    <p class="text-xs text-slate-500">This online demo uses an open-source API, not the robotic arm's AI algorithm.</p>
+                                    <p class="text-xs text-slate-500">This demo uses an open-source API, not the minimax algorithm.</p>
                                 </div>
                                 <div class="flex justify-center items-center gap-4 mt-2">
                                     <button id="reset-connect4-btn" class="px-4 py-1 text-sm bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 transition-colors">Reset</button>
@@ -520,11 +537,16 @@
                     moveHistory += (col + 1); // API uses 1-7, our board uses 0-6
                     updateBoardUI();
 
-                    if (checkWin(board, player)) {
+                    const winningPieces = checkWin(board, player);
+                    if (winningPieces) {
                         gameOver = true;
                         statusElement.textContent = `${player === PLAYER ? 'You win!' : 'AI wins!'}`;
                         boardElement.classList.add('disabled');
-                        triggerConfetti(); // Celebrate any win
+                        triggerConfetti();
+                        winningPieces.forEach(([wr, wc]) => {
+                            const cell = boardElement.children[wr * COLS + wc];
+                            cell.classList.add('winning-piece');
+                        });
                     } else if (board.flat().every(cell => cell !== 0)) {
                         gameOver = true;
                         statusElement.textContent = "It's a draw!";
@@ -559,18 +581,34 @@
                 boardElement.classList.add('disabled');
                 
                 try {
+                    const validCols = getValidLocations(board);
+                    if (validCols.length === 0) {
+                        gameOver = true;
+                        statusElement.textContent = "It's a draw!";
+                        boardElement.classList.add('disabled');
+                        return;
+                    }
+
                     const apiUrl = `https://connect4.gamesolver.org/solve?pos=${moveHistory}`;
                     const response = await fetch(apiUrl);
                     const data = await response.json();
                     
-                    const bestMoveColumn = data.score.indexOf(Math.max(...data.score));
+                    let bestScore = -Infinity;
+                    let bestMoveColumn = -1;
+
+                    // Iterate through only the valid (non-full) columns to find the best move
+                    for (const col of validCols) {
+                        if (data.score[col] > bestScore) {
+                            bestScore = data.score[col];
+                            bestMoveColumn = col;
+                        }
+                    }
                     
                     setTimeout(() => {
                         if (bestMoveColumn !== -1) {
                             dropPiece(bestMoveColumn, AI);
                         } else {
-                            // Fallback if API fails or gives bad data
-                            const validCols = getValidLocations(board);
+                            // Fallback: if API fails or gives no valid move, choose a random valid one
                             const randomMove = validCols[Math.floor(Math.random() * validCols.length)];
                             dropPiece(randomMove, AI);
                         }
@@ -599,28 +637,39 @@
         }
 
         function checkWin(board, player) {
-            // Check horizontal, vertical, and both diagonals
-            for (let c = 0; c < COLS - 3; c++) {
-                for (let r = 0; r < ROWS; r++) {
-                    if (board[r][c] == player && board[r][c+1] == player && board[r][c+2] == player && board[r][c+3] == player) return true;
+            // Check horizontal
+            for (let r = 0; r < ROWS; r++) {
+                for (let c = 0; c < COLS - 3; c++) {
+                    if (board[r][c] === player && board[r][c+1] === player && board[r][c+2] === player && board[r][c+3] === player) {
+                        return [[r, c], [r, c+1], [r, c+2], [r, c+3]];
+                    }
                 }
             }
+            // Check vertical
             for (let c = 0; c < COLS; c++) {
                 for (let r = 0; r < ROWS - 3; r++) {
-                    if (board[r][c] == player && board[r+1][c] == player && board[r+2][c] == player && board[r+3][c] == player) return true;
+                    if (board[r][c] === player && board[r+1][c] === player && board[r+2][c] === player && board[r+3][c] === player) {
+                        return [[r, c], [r+1, c], [r+2, c], [r+3, c]];
+                    }
                 }
             }
-            for (let c = 0; c < COLS - 3; c++) {
-                for (let r = 0; r < ROWS - 3; r++) {
-                    if (board[r][c] == player && board[r+1][c+1] == player && board[r+2][c+2] == player && board[r+3][c+3] == player) return true;
+            // Check diagonal (down-right)
+            for (let r = 0; r < ROWS - 3; r++) {
+                for (let c = 0; c < COLS - 3; c++) {
+                    if (board[r][c] === player && board[r+1][c+1] === player && board[r+2][c+2] === player && board[r+3][c+3] === player) {
+                        return [[r, c], [r+1, c+1], [r+2, c+2], [r+3, c+3]];
+                    }
                 }
             }
-            for (let c = 0; c < COLS - 3; c++) {
-                for (let r = 3; r < ROWS; r++) {
-                    if (board[r][c] == player && board[r-1][c+1] == player && board[r-2][c+2] == player && board[r-3][c+3] == player) return true;
+            // Check diagonal (up-right)
+            for (let r = 3; r < ROWS; r++) {
+                for (let c = 0; c < COLS - 3; c++) {
+                    if (board[r][c] === player && board[r-1][c+1] === player && board[r-2][c+2] === player && board[r-3][c+3] === player) {
+                        return [[r, c], [r-1, c+1], [r-2, c+2], [r-3, c+3]];
+                    }
                 }
             }
-            return false;
+            return null;
         }
         
         function getValidLocations(board) {
@@ -633,6 +682,10 @@
             moveHistory = '';
             statusElement.textContent = "Your Turn (Red)";
             boardElement.classList.remove('disabled');
+            // Remove winning pulse from all cells
+            for(const cell of boardElement.children) {
+                cell.classList.remove('winning-piece');
+            }
             createBoard();
         }
 
