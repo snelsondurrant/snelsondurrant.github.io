@@ -14,6 +14,11 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8fafc; /* slate-50 */
             color: #334155; /* slate-700 */
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .dark body {
+            background-color: #0f172a; /* slate-900 */
+            color: #94a3b8; /* slate-400 */
         }
         /* Typewriter effect */
         @keyframes typing {
@@ -68,6 +73,9 @@
             transition: background-color 0.2s;
             z-index: 1;
         }
+        .dark .connect4-cell {
+             background-color: #1e293b; /* slate-800 */
+        }
         .connect4-cell.player1 { background-color: #ef4444; } /* red-500 */
         .connect4-cell.player2 { background-color: #facc15; } /* yellow-400 */
 
@@ -86,42 +94,102 @@
             animation: pulse 1.5s 1; /* Run the animation once */
             z-index: 2; /* Bring winning pieces to the front */
         }
+        /* Dark Mode Toggle Switch */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 26px;
+            position: relative;
+            width: 50px;
+        }
+        .theme-switch input {
+            display:none;
+        }
+        .slider {
+            background-color: #cbd5e1; /* slate-300 */
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: .4s;
+            border-radius: 26px;
+        }
+        .slider:before {
+            background-color: #fff;
+            bottom: 3px;
+            content: "";
+            height: 20px;
+            left: 3px;
+            position: absolute;
+            transition: .4s;
+            width: 20px;
+            border-radius: 50%;
+        }
+        input:checked + .slider {
+            background-color: #4f46e5; /* indigo-600 */
+        }
+        input:checked + .slider:before {
+            transform: translateX(24px);
+        }
+        .dark .slider {
+             background-color: #475569; /* slate-600 */
+        }
     </style>
+    <script>
+        // Set dark mode based on saved preference or system setting
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark')
+        } else {
+          document.documentElement.classList.remove('dark')
+        }
+
+        // Tailwind config for dark mode
+        tailwind.config = {
+            darkMode: 'class',
+            // ... other configurations
+        }
+    </script>
 </head>
-<body class="text-slate-700">
+<body class="text-slate-700 dark:text-slate-400 bg-slate-50 dark:bg-slate-900">
 
     <!-- Header & Navigation -->
-    <header class="bg-white/90 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200">
+    <header class="bg-white/90 dark:bg-slate-900/80 backdrop-blur-lg sticky top-0 z-50 border-b border-slate-200 dark:border-slate-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16">
                 <div class="flex-shrink-0">
-                    <a href="#" class="text-xl font-bold text-slate-800 nav-link">Curriculum Vitae</a>
+                    <a href="#" class="text-xl font-bold text-slate-800 dark:text-slate-200 nav-link">Curriculum Vitae</a>
                 </div>
                 <!-- Desktop Navigation -->
                 <nav class="hidden md:flex flex-wrap justify-end md:gap-x-6 lg:gap-x-8 md:gap-y-2">
-                    <a href="#summary" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Summary</a>
-                    <a href="#education" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Education</a>
-                    <a href="#experience" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Experience</a>
-                    <a href="#publications" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Publications</a>
-                    <a href="#competitions" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Competitions</a>
-                    <a href="#projects" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Projects</a>
-                    <a href="#skills" class="text-gray-500 hover:text-blue-600 transition-colors duration-300 nav-link">Skills</a>
+                    <a href="#summary" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Summary</a>
+                    <a href="#education" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Education</a>
+                    <a href="#experience" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Experience</a>
+                    <a href="#publications" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Publications</a>
+                    <a href="#competitions" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Competitions</a>
+                    <a href="#projects" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Projects</a>
+                    <a href="#skills" class="text-gray-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-300 nav-link">Skills</a>
                 </nav>
                 <!-- Mobile Navigation Button -->
                 <div class="md:hidden group relative">
-                     <button id="menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                     <button id="menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
                         <span class="sr-only">Open main menu</span>
                         <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
-                     <div id="mobile-menu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-20">
+                     <div id="mobile-menu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white dark:bg-slate-800 ring-1 ring-black ring-opacity-5 z-20">
                         <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
-                            <a href="#summary" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Summary</a>
-                            <a href="#education" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Education</a>
-                            <a href="#experience" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Experience</a>
-                            <a href="#publications" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Publications</a>
-                            <a href="#competitions" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Competitions</a>
-                            <a href="#projects" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Projects</a>
-                            <a href="#skills" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 nav-link">Skills</a>
+                            <a href="#summary" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Summary</a>
+                            <a href="#education" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Education</a>
+                            <a href="#experience" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Experience</a>
+                            <a href="#publications" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Publications</a>
+                            <a href="#competitions" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Competitions</a>
+                            <a href="#projects" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Projects</a>
+                            <a href="#skills" class="block px-4 py-2 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-700 nav-link">Skills</a>
                         </div>
                     </div>
                 </div>
@@ -135,9 +203,9 @@
         <section id="summary" class="relative overflow-hidden py-10 md:py-16 text-center">
             <div class="relative z-10">
                 <div class="typewriter inline-block">
-                    <h1 class="text-4xl md:text-5xl font-bold text-slate-900 tracking-tight pb-2">Sterling Nelson Durrant</h1>
+                    <h1 class="text-4xl md:text-5xl font-bold text-slate-900 dark:text-slate-100 tracking-tight pb-2">Sterling Nelson Durrant</h1>
                 </div>
-                <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600">
+                <p class="mt-6 max-w-3xl mx-auto text-lg text-slate-600 dark:text-slate-400">
                     Robotics engineer and MS student experienced in designing, prototyping, and deploying <b>autonomous systems</b> in GPS-denied marine and unstructured outdoor environments. Delivered a <b>1st-place autonomy score</b> among 100+ teams in international competition. Strong background in autonomous navigation, state estimation, and control systems using <b>C++ and ROS 2</b>.
                 </p>
                 <div class="mt-8 flex flex-wrap justify-center items-center gap-4">
@@ -145,11 +213,11 @@
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                         LinkedIn
                     </a>
-                    <a href="https://github.com/snelsondurrant" target="_blank" class="inline-flex items-center justify-center gap-2 bg-slate-800 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-slate-900 transition-all duration-300 transform hover:-translate-y-1">
+                    <a href="https://github.com/snelsondurrant" target="_blank" class="inline-flex items-center justify-center gap-2 bg-slate-800 text-white font-semibold px-6 py-3 rounded-lg shadow-md hover:bg-slate-900 dark:bg-slate-700 dark:hover:bg-slate-600 transition-all duration-300 transform hover:-translate-y-1">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.651.64.7 1.03 1.595 1.03 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd" /></svg>
                         GitHub
                     </a>
-                    <a href="https://docs.google.com/document/d/1d0JMr5vxPuSD83KS0W7v9_9oa7-y7VWXeIDLu0lz-yg/edit?usp=sharing" target="_blank" title="Google Doc Version" class="inline-flex items-center justify-center bg-slate-200 text-slate-800 w-12 h-12 rounded-full shadow-md hover:bg-slate-300 transition-all duration-300 transform hover:-translate-y-1">
+                    <a href="https://docs.google.com/document/d/1d0JMr5vxPuSD83KS0W7v9_9oa7-y7VWXeIDLu0lz-yg/edit?usp=sharing" target="_blank" title="Google Doc Version" class="inline-flex items-center justify-center bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-200 w-12 h-12 rounded-full shadow-md hover:bg-slate-300 dark:hover:bg-slate-600 transition-all duration-300 transform hover:-translate-y-1">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
@@ -163,35 +231,35 @@
             <!-- Sections will flow automatically into columns -->
 
             <!-- Education Section -->
-            <section id="education" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Education</h2>
+            <section id="education" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-12">Education</h2>
                 <div class="max-w-3xl mx-auto">
                     <div class="relative pl-8 sm:pl-12 pb-12 group">
                         <!-- Timeline -->
-                        <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
+                        <div class="w-0.5 bg-slate-200 dark:bg-slate-700 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
                         <!-- Content -->
-                        <p class="text-sm font-medium text-blue-600">Expected Apr 2027</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">MS Electrical and Computer Engineering</h3>
-                            <p class="text-slate-600">Brigham Young University</p>
-                            <div class="mt-4 text-sm text-slate-600 space-y-2">
-                                <p><span class="font-semibold text-slate-700">Advisor:</span> Dr. Joshua Mangelson</p>
-                                <p><span class="font-semibold text-slate-700">Relevant Coursework:</span> Robotic Localization & Mapping, Robotic Vision, Transformers for NLP, Theory of Predictive Modeling, Stochastic Processes, Math of Signals & Systems</p>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Expected Apr 2027</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">MS Electrical and Computer Engineering</h3>
+                            <p class="text-slate-600 dark:text-slate-400">Brigham Young University</p>
+                            <div class="mt-4 text-sm text-slate-600 dark:text-slate-400 space-y-2">
+                                <p><span class="font-semibold text-slate-700 dark:text-slate-300">Advisor:</span> Dr. Joshua Mangelson</p>
+                                <p><span class="font-semibold text-slate-700 dark:text-slate-300">Relevant Coursework:</span> Robotic Localization & Mapping, Robotic Vision, Transformers for NLP, Theory of Predictive Modeling, Stochastic Processes, Math of Signals & Systems</p>
                             </div>
                         </div>
                     </div>
                     <div class="relative pl-8 sm:pl-12 group">
                         <!-- Timeline -->
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
                         <!-- Content -->
-                        <p class="text-sm font-medium text-blue-600">Apr 2025</p>
-                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">BS Computer Engineering</h3>
-                            <p class="text-slate-600">Brigham Young University</p>
-                            <div class="mt-4 text-sm text-slate-600 space-y-2">
-                                <p><span class="font-semibold text-slate-700">GPA:</span> 4.0 / 4.0</p>
-                                <p><span class="font-semibold text-slate-700">Relevant Coursework:</span> Design of Control Systems, Robotics & Autonomy, Embedded Systems, Computer Organization, Algorithm Design & Analysis</p>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Apr 2025</p>
+                         <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">BS Computer Engineering</h3>
+                            <p class="text-slate-600 dark:text-slate-400">Brigham Young University</p>
+                            <div class="mt-4 text-sm text-slate-600 dark:text-slate-400 space-y-2">
+                                <p><span class="font-semibold text-slate-700 dark:text-slate-300">GPA:</span> 4.0 / 4.0</p>
+                                <p><span class="font-semibold text-slate-700 dark:text-slate-300">Relevant Coursework:</span> Design of Control Systems, Robotics & Autonomy, Embedded Systems, Computer Organization, Algorithm Design & Analysis</p>
                             </div>
                         </div>
                     </div>
@@ -199,27 +267,27 @@
             </section>
 
             <!-- Experience Section -->
-            <section id="experience" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Experience</h2>
+            <section id="experience" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-12">Experience</h2>
                 <div class="max-w-3xl mx-auto">
                     <div class="relative pl-8 sm:pl-12 pb-12 group">
-                        <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">May 2025 - Present</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Graduate Research Assistant</h3>
-                            <p class="text-slate-600">BYU Field Robotic Systems Lab</p>
+                        <div class="w-0.5 bg-slate-200 dark:bg-slate-700 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">May 2025 - Present</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Graduate Research Assistant</h3>
+                            <p class="text-slate-600 dark:text-slate-400">BYU Field Robotic Systems Lab</p>
                         </div>
                     </div>
                     <div class="relative pl-8 sm:pl-12 pb-12 group">
-                        <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">May 2025 - Aug 2025</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Robotics S&T Intern</h3>
-                            <p class="text-slate-600 mb-2">NAVSEA Naval Surface Warfare Center, Panama City Division</p>
+                        <div class="w-0.5 bg-slate-200 dark:bg-slate-700 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">May 2025 - Aug 2025</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Robotics S&T Intern</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">NAVSEA Naval Surface Warfare Center, Panama City Division</p>
                             <div class="mt-2">
-                                <a href="https://www.navalsteminterns.us/nreip" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm">
+                                <a href="https://www.navalsteminterns.us/nreip" target="_blank" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.536a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                     </svg>
@@ -229,12 +297,12 @@
                         </div>
                     </div>
                     <div class="relative pl-8 sm:pl-12 group">
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                         <p class="text-sm font-medium text-blue-600">Apr 2023 - May 2025</p>
-                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Undergraduate Research Assistant</h3>
-                            <p class="text-slate-600 mb-2">BYU Field Robotic Systems Lab</p>
-                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                         <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Apr 2023 - May 2025</p>
+                         <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Undergraduate Research Assistant</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">BYU Field Robotic Systems Lab</p>
+                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 dark:text-slate-400 space-y-1 mt-2">
                                 <li>Co-designed and built 5 low-cost, configurable <b>AUVs (autonomous underwater vehicles)</b> in a team of 4 undergraduate students, 10x cheaper than COTS</li>
                                 <li>Developed a scalable, Dockerized <b>AUV autonomy stack with ROS 2</b> and MOOS-IvP</li>
                                 <li>Devised and tuned robust feedback systems for AUV heading and depth control</li>
@@ -247,19 +315,19 @@
             </section>
 
             <!-- Publications Section -->
-            <section id="publications" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Publications</h2>
+            <section id="publications" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-10">Publications</h2>
                 <div class="max-w-4xl mx-auto space-y-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, M. McMurray, C. Smith, B. Anderson, T. Hodgins, J. Mangelson, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research,” Submitted to the IEEE/MTS OCEANS Conference and Exhibition, 2025.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <p class="text-slate-600 dark:text-slate-400"><b>N. Durrant</b>, B. Meyers, M. McMurray, C. Smith, B. Anderson, T. Hodgins, J. Mangelson, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research,” Submitted to the IEEE/MTS OCEANS Conference and Exhibition, 2025.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, H. Spigarelli, M. Killpack, “BYU Mars Rover Telemetry in the 2025 University Rover Challenge,” in Proceedings of the International Telemetering Conference, 2025.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <p class="text-slate-600 dark:text-slate-400"><b>N. Durrant</b>, B. Meyers, H. Spigarelli, M. Killpack, “BYU Mars Rover Telemetry in the 2025 University Rover Challenge,” in Proceedings of the International Telemetering Conference, 2025.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <p class="text-slate-600">T. Zhang, W. Zhi, B. Meyers, <b>N. Durrant</b>, K. Huang, J. Mangelson, C. Barbalata, M. Johnson-Roberson, “RecGS: Removing Water Caustic with Recurrent Gaussian Splatting”, in Proceedings of the IEEE International Conference on Robotics and Automation (ICRA), 2025.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <p class="text-slate-600 dark:text-slate-400">T. Zhang, W. Zhi, B. Meyers, <b>N. Durrant</b>, K. Huang, J. Mangelson, C. Barbalata, M. Johnson-Roberson, “RecGS: Removing Water Caustic with Recurrent Gaussian Splatting”, in Proceedings of the IEEE International Conference on Robotics and Automation (ICRA), 2025.</p>
                         <div class="mt-4">
-                            <a href="https://github.com/tyz1030/recgs" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm">
+                            <a href="https://github.com/tyz1030/recgs" target="_blank" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors text-sm">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.536a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                 </svg>
@@ -271,36 +339,36 @@
             </section>
 
             <!-- Competitions Section -->
-            <section id="competitions" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Competitions</h2>
+            <section id="competitions" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-12">Competitions</h2>
                 <div class="max-w-3xl mx-auto">
                      <div class="relative pl-8 sm:pl-12 pb-12 group">
-                        <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">Sep 2024 - Jul 2025</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Software and Electrical Lead</h3>
-                            <p class="text-slate-600 mb-2">ASABE Agricultural Robotics Competition (2025)</p>
-                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
+                        <div class="w-0.5 bg-slate-200 dark:bg-slate-700 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Sep 2024 - Jul 2025</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Software and Electrical Lead</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">ASABE Agricultural Robotics Competition (2025)</p>
+                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 dark:text-slate-400 space-y-1 mt-2">
                                 <li>Led a 7-student team in engineering <b>sparse-LiDAR-based localization and control solutions</b> for an autonomous egg-collecting robot, securing XX place in the Advanced Division</li>
                             </ul>
                         </div>
                     </div>
                      <div class="relative pl-8 sm:pl-12 pb-12 group">
-                        <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">Jul 2024 - May 2025</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Autonomy Team, Software Team</h3>
-                            <p class="text-slate-600 mb-2">Mars Society University Rover Challenge (2025)</p>
-                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
+                        <div class="w-0.5 bg-slate-200 dark:bg-slate-700 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Jul 2024 - May 2025</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Autonomy Team, Software Team</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">Mars Society University Rover Challenge (2025)</p>
+                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 dark:text-slate-400 space-y-1 mt-2">
                                 <li>Spearheaded the development of a modernized, Nav2-based autonomy stack, directly contributing to a <b>1st place autonomy score</b> among 100+ international teams</li>
                                 <li>Led a team of 12 in <b>migrating a critical ROS 1 system (80+ nodes) to ROS 2</b>, reducing downtime by 90% through Dockerized code development and deployment</li>
                                 <li>Eliminated existing state estimation drift (diverged in under 30s) by replacing the previous localization solution with an <b>EKF fusing IMU, GPS, and visual odometry data</b></li>
                                 <li>Created a fully-featured Gazebo simulation (GPS, Aruco, multimodal sensors) for rapid validation of autonomous navigation capabilities</li>
                             </ul>
                             <div class="mt-4">
-                                <a href="https://github.com/snelsondurrant/marsrover_2.0" target="_blank" class="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:underline transition-colors text-sm">
+                                <a href="https://github.com/snelsondurrant/marsrover_2.0" target="_blank" class="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline transition-colors text-sm">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.536a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
                                     </svg>
@@ -310,12 +378,12 @@
                         </div>
                     </div>
                      <div class="relative pl-8 sm:pl-12 group">
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">Sep 2023 - Jul 2024</p>
-                         <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Software and Electrical Team</h3>
-                            <p class="text-slate-600 mb-2">ASABE Agricultural Robotics Competition (2024)</p>
-                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Sep 2023 - Jul 2024</p>
+                         <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Software and Electrical Team</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">ASABE Agricultural Robotics Competition (2024)</p>
+                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 dark:text-slate-400 space-y-1 mt-2">
                                 <li>Prototyped PCBs and trained YOLOv8 detection models for an autonomous plant-pruning robot, taking 3rd place in the Advanced Division</li>
                             </ul>
                         </div>
@@ -324,89 +392,89 @@
             </section>
 
             <!-- Projects Section -->
-            <section id="projects" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Projects</h2>
+            <section id="projects" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-10">Projects</h2>
                 <div class="max-w-4xl mx-auto space-y-6">
                     <!-- Connect 4 Project -->
-                    <div id="connect4-card" class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500 flex flex-col">
+                    <div id="connect4-card" class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400 flex flex-col">
                         <div class="flex-grow">
-                            <h3 class="font-bold text-lg text-slate-800">Connect 4 Robotic Arm</h3>
-                            <p class="mt-2 text-slate-600">Built a 3D-printed robotic arm that plays Connect 4, leveraging OpenCV’s Hough transform and the minimax theorem for a 83-4-1 win-loss record against friends and family.</p>
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Connect 4 Robotic Arm</h3>
+                            <p class="mt-2 text-slate-600 dark:text-slate-400">Built a 3D-printed robotic arm that plays Connect 4, leveraging OpenCV’s Hough transform and the minimax theorem for a 83-4-1 win-loss record against friends and family.</p>
                         </div>
                         <div id="connect4-container" class="mt-4 text-center">
                              <button id="play-connect4-btn" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition-all">Play Connect 4</button>
                              <div id="connect4-game" class="hidden mt-4">
                                 <!-- Inner card for the game board and controls -->
-                                <div class="border border-slate-200 rounded-lg p-4">
+                                <div class="border border-slate-200 dark:border-slate-700 rounded-lg p-4">
                                     <div id="connect4-board-interactive" class="connect4-board"></div>
                                     <!-- Styled feedback box -->
-                                    <div id="connect4-status" class="mt-4 bg-slate-200 text-slate-600 rounded-lg p-3 text-center text-sm font-medium flex items-center justify-center"></div>
+                                    <div id="connect4-status" class="mt-4 bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-lg p-3 text-center text-sm font-medium flex items-center justify-center"></div>
                                     <div class="flex justify-center items-center gap-4 mt-4">
                                         <button id="reset-connect4-btn" class="px-4 py-1 text-sm bg-blue-500 text-white rounded-md shadow-sm hover:bg-blue-600 transition-colors">Reset</button>
-                                        <button id="close-connect4-btn" class="px-4 py-1 text-sm bg-slate-300 text-slate-700 rounded-md shadow-sm hover:bg-slate-400 transition-colors">Close</button>
+                                        <button id="close-connect4-btn" class="px-4 py-1 text-sm bg-slate-300 dark:bg-slate-600 text-slate-700 dark:text-slate-200 rounded-md shadow-sm hover:bg-slate-400 dark:hover:bg-slate-500 transition-colors">Close</button>
                                     </div>
                                 </div>
                              </div>
                         </div>
                     </div>
                     <!-- Other Projects -->
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-800">3-DOF Twin-Rotor Helicopter Controls <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
-                        <p class="mt-2 text-slate-600">Engineered and validated <b>PID, full-state feedback, and observer-based control systems</b> for a 3-DOF twin-rotor helicopter.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">3-DOF Twin-Rotor Helicopter Controls <span class="text-sm font-normal text-slate-500 dark:text-slate-400">(coursework)</span></h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-400">Engineered and validated <b>PID, full-state feedback, and observer-based control systems</b> for a 3-DOF twin-rotor helicopter.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-800">Self-Driving RC Car <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
-                        <p class="mt-2 text-slate-600">Built a ROS 1-based autonomy stack for an RC car, capable of robust OpenCV-based lane following, collision avoidance, and intersection navigation.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Self-Driving RC Car <span class="text-sm font-normal text-slate-500 dark:text-slate-400">(coursework)</span></h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-400">Built a ROS 1-based autonomy stack for an RC car, capable of robust OpenCV-based lane following, collision avoidance, and intersection navigation.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-800">Embedded Space Invaders <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
-                        <p class="mt-2 text-slate-600">Developed a 60 FPS "Space Invaders" game on embedded Linux, leveraging custom device drivers and FPGA timer hardware.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Embedded Space Invaders <span class="text-sm font-normal text-slate-500 dark:text-slate-400">(coursework)</span></h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-400">Developed a 60 FPS "Space Invaders" game on embedded Linux, leveraging custom device drivers and FPGA timer hardware.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-800">RISC-V Processor <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
-                        <p class="mt-2 text-slate-600">Designed and validated a 32-bit pipelined RISC-V processor; used it to execute an assembly adaptation of the game “Snake”.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">RISC-V Processor <span class="text-sm font-normal text-slate-500 dark:text-slate-400">(coursework)</span></h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-400">Designed and validated a 32-bit pipelined RISC-V processor; used it to execute an assembly adaptation of the game “Snake”.</p>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="font-bold text-lg text-slate-800">Multiplayer Laser Tag System <span class="text-sm font-normal text-slate-500">(coursework)</span></h3>
-                        <p class="mt-2 text-slate-600">Engineered custom receiver board circuitry for a 10-player laser tag system, achieving >95% shot recognition from a 60-foot range.</p>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Multiplayer Laser Tag System <span class="text-sm font-normal text-slate-500 dark:text-slate-400">(coursework)</span></h3>
+                        <p class="mt-2 text-slate-600 dark:text-slate-400">Engineered custom receiver board circuitry for a 10-player laser tag system, achieving >95% shot recognition from a 60-foot range.</p>
                     </div>
                 </div>
             </section>
 
             <!-- Presentations Section -->
-            <section id="presentations" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Presentations</h2>
+            <section id="presentations" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-10">Presentations</h2>
                 <div class="max-w-4xl mx-auto space-y-4">
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600"><b>N. Durrant</b>, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research”, BYU IMMERSE Research Program, May 2025.</p></div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600">K. Velasco, B. Meyers, <b>N. Durrant</b>, B. Anderson, C. Smith, T. Hodgins, E. Gaskin, C. Saunders, B. Washburn, J. Mangelson, “Active Cooperative Terrain-Aided Navigation Using Inverted USBL”, NSWC PCD - NEEC Research Review, May 2025.</p></div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600">J. Boyer, <b>N. Durrant</b>, K. Green, “BYU Mars Rover: 2025 University Rover Challenge”, Utah NASA Space Grant Consortium, May 2025. (Poster Session).</p></div>
-                    <div class="bg-white p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500"><p class="text-slate-600"><b>N. Durrant</b>, B. Meyers, M. McMurray, B. Anderson, C. Smith, T. Hodgins, J. Mangelson, “Configurable Underwater Group of Autonomous Robots (CoUGARs)”, NEEC Fest (Naval Engineering Education Consortium), Jul 2024. (Poster Session).</p></div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400"><p class="text-slate-600 dark:text-slate-400"><b>N. Durrant</b>, “Low-cost Multi-agent Fleet for Acoustic Cooperative Localization Research”, BYU IMMERSE Research Program, May 2025.</p></div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400"><p class="text-slate-600 dark:text-slate-400">K. Velasco, B. Meyers, <b>N. Durrant</b>, B. Anderson, C. Smith, T. Hodgins, E. Gaskin, C. Saunders, B. Washburn, J. Mangelson, “Active Cooperative Terrain-Aided Navigation Using Inverted USBL”, NSWC PCD - NEEC Research Review, May 2025.</p></div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400"><p class="text-slate-600 dark:text-slate-400">J. Boyer, <b>N. Durrant</b>, K. Green, “BYU Mars Rover: 2025 University Rover Challenge”, Utah NASA Space Grant Consortium, May 2025. (Poster Session).</p></div>
+                    <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400"><p class="text-slate-600 dark:text-slate-400"><b>N. Durrant</b>, B. Meyers, M. McMurray, B. Anderson, C. Smith, T. Hodgins, J. Mangelson, “Configurable Underwater Group of Autonomous Robots (CoUGARs)”, NEEC Fest (Naval Engineering Education Consortium), Jul 2024. (Poster Session).</p></div>
                 </div>
             </section>
 
             <!-- Service Section -->
-            <section id="service" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-12">Service</h2>
+            <section id="service" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-12">Service</h2>
                 <div class="max-w-3xl mx-auto">
                      <div class="relative pl-8 sm:pl-12 pb-12 group">
-                        <div class="w-0.5 bg-slate-200 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">Aug 2022 - May 2023</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">Amateur Web Developer</h3>
-                            <p class="text-slate-600 mb-2">Become More Charity Organization</p>
-                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
+                        <div class="w-0.5 bg-slate-200 dark:bg-slate-700 absolute h-full left-2 sm:left-[22px] top-0 group-last:hidden"></div>
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Aug 2022 - May 2023</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">Amateur Web Developer</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">Become More Charity Organization</p>
+                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 dark:text-slate-400 space-y-1 mt-2">
                                 <li>Created a dynamic, mobile-first website to showcase economic impact and raise donations for sustainable development projects in rural Cambodia.</li>
                             </ul>
                         </div>
                     </div>
                      <div class="relative pl-8 sm:pl-12 group">
-                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white group-hover:ring-blue-100 transition-all"></div>
-                        <p class="text-sm font-medium text-blue-600">Jul 2020 - Jun 2022</p>
-                        <div class="bg-white p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                            <h3 class="font-bold text-lg text-slate-800">ESL Teacher, ESL Program Coordinator</h3>
-                            <p class="text-slate-600 mb-2">EnglishConnect (The Church of Jesus Christ of Latter-day Saints)</p>
-                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 space-y-1 mt-2">
+                        <div class="w-4 h-4 bg-blue-500 rounded-full absolute left-0 sm:left-4 top-1 z-10 ring-4 ring-white dark:ring-slate-900 group-hover:ring-blue-100 dark:group-hover:ring-blue-900 transition-all"></div>
+                        <p class="text-sm font-medium text-blue-600 dark:text-blue-400">Jul 2020 - Jun 2022</p>
+                        <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm mt-2 transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                            <h3 class="font-bold text-lg text-slate-800 dark:text-slate-200">ESL Teacher, ESL Program Coordinator</h3>
+                            <p class="text-slate-600 dark:text-slate-400 mb-2">EnglishConnect (The Church of Jesus Christ of Latter-day Saints)</p>
+                            <ul class="list-disc list-outside pl-5 text-sm text-slate-500 dark:text-slate-400 space-y-1 mt-2">
                                 <li>Taught 150+ group English lessons to Spanish-speaking immigrants over Zoom and in-person, organized 8 new local classes, and trained 40+ volunteers as teachers.</li>
                             </ul>
                         </div>
@@ -415,32 +483,32 @@
             </section>
 
             <!-- Skills Section -->
-            <section id="skills" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200">
-                <h2 class="text-3xl font-bold text-center text-slate-900 mb-10">Skills</h2>
+            <section id="skills" class="break-inside-avoid py-10 md:py-16 border-t border-slate-200 dark:border-slate-800">
+                <h2 class="text-3xl font-bold text-center text-slate-900 dark:text-slate-100 mb-10">Skills</h2>
                 <div class="max-w-4xl mx-auto space-y-6">
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="text-lg font-semibold text-slate-800 mb-4">Languages</h3>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Languages</h3>
                         <div class="flex flex-wrap gap-3">
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">C++</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">Python</span>
-                            <span class="bg-blue-100 text-blue-800 text-sm font-medium px-4 py-2 rounded-full">C</span>
+                            <span class="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 text-sm font-medium px-4 py-2 rounded-full">C++</span>
+                            <span class="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 text-sm font-medium px-4 py-2 rounded-full">Python</span>
+                            <span class="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300 text-sm font-medium px-4 py-2 rounded-full">C</span>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="text-lg font-semibold text-slate-800 mb-4">Frameworks & Libraries</h3>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Frameworks & Libraries</h3>
                         <div class="flex flex-wrap gap-3">
-                            <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">ROS 2</span>
-                            <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">Docker</span>
-                            <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">OpenCV</span>
-                            <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">GTSAM</span>
-                            <span class="bg-sky-100 text-sky-800 text-sm font-medium px-4 py-2 rounded-full">YOLO</span>
+                            <span class="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 text-sm font-medium px-4 py-2 rounded-full">ROS 2</span>
+                            <span class="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 text-sm font-medium px-4 py-2 rounded-full">Docker</span>
+                            <span class="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 text-sm font-medium px-4 py-2 rounded-full">OpenCV</span>
+                            <span class="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 text-sm font-medium px-4 py-2 rounded-full">GTSAM</span>
+                            <span class="bg-sky-100 text-sky-800 dark:bg-sky-900/50 dark:text-sky-300 text-sm font-medium px-4 py-2 rounded-full">YOLO</span>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md hover:border-l-4 hover:border-blue-500">
-                        <h3 class="text-lg font-semibold text-slate-800 mb-4">Hardware & EDA</h3>
+                    <div class="bg-white dark:bg-slate-800 p-6 rounded-lg shadow-sm transition-all duration-300 hover:shadow-md dark:hover:shadow-blue-900/50 hover:border-l-4 hover:border-blue-500 dark:hover:border-blue-400">
+                        <h3 class="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-4">Hardware & EDA</h3>
                         <div class="flex flex-wrap gap-3">
-                            <span class="bg-emerald-100 text-emerald-800 text-sm font-medium px-4 py-2 rounded-full">Altium</span>
-                            <span class="bg-emerald-100 text-emerald-800 text-sm font-medium px-4 py-2 rounded-full">Autodesk EAGLE</span>
+                            <span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 text-sm font-medium px-4 py-2 rounded-full">Altium</span>
+                            <span class="bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300 text-sm font-medium px-4 py-2 rounded-full">Autodesk EAGLE</span>
                         </div>
                     </div>
                 </div>
@@ -454,14 +522,41 @@
     </button>
 
     <!-- Footer -->
-    <footer class="bg-slate-800 text-slate-400">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm">
-            <p>&copy; 2025 Sterling Nelson Durrant. All Rights Reserved. <br> Created with Gemini 2.5 Pro.</p>
+    <footer class="bg-slate-100 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-center text-sm flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p>&copy; 2025 Sterling Nelson Durrant. All Rights Reserved.</p>
+            <!-- Dark Mode Toggle -->
+            <div class="theme-switch-wrapper">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+                <label class="theme-switch" for="theme-toggle">
+                    <input type="checkbox" id="theme-toggle" />
+                    <span class="slider round"></span>
+                </label>
+                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" /></svg>
+            </div>
         </div>
     </footer>
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // --- Dark Mode Logic ---
+        const themeToggle = document.getElementById('theme-toggle');
+        
+        // Set initial state of the toggle
+        if (document.documentElement.classList.contains('dark')) {
+            themeToggle.checked = true;
+        }
+
+        themeToggle.addEventListener('change', () => {
+            if (themeToggle.checked) {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            } else {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            }
+        });
+
         // --- General Setup ---
         const menuButton = document.getElementById('menu-button');
         const mobileMenu = document.getElementById('mobile-menu');
@@ -597,7 +692,6 @@
         
         async function switchPlayer() {
             currentPlayer = (currentPlayer === PLAYER) ? AI : PLAYER;
-            // UPDATED: Set status text based on whose turn it is
             statusElement.textContent = (currentPlayer === PLAYER) ? "Your turn to play." : "Finding optimal move...";
             
             if (currentPlayer === AI && !gameOver) {
@@ -703,7 +797,6 @@
             gameOver = false;
             currentPlayer = PLAYER;
             moveHistory = '';
-            // UPDATED: Set initial game message
             statusElement.textContent = "Click any column to begin.";
             boardElement.classList.remove('disabled');
             // Remove winning pulse from all cells
@@ -716,7 +809,7 @@
         playBtn.addEventListener('click', () => {
             playBtn.classList.add('hidden');
             gameContainer.classList.remove('hidden');
-            connect4Card.classList.remove('hover:shadow-md', 'hover:border-l-4', 'hover:border-blue-500');
+            connect4Card.classList.remove('hover:shadow-md', 'hover:border-l-4', 'hover:border-blue-500', 'dark:hover:border-blue-400');
             resetGame();
         });
 
@@ -725,7 +818,7 @@
         closeBtn.addEventListener('click', () => {
             gameContainer.classList.add('hidden');
             playBtn.classList.remove('hidden');
-            connect4Card.classList.add('hover:shadow-md', 'hover:border-l-4', 'hover:border-blue-500');
+            connect4Card.classList.add('hover:shadow-md', 'hover:border-l-4', 'hover:border-blue-500', 'dark:hover:border-blue-400');
         });
     });
     </script>
